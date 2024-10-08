@@ -29,26 +29,34 @@ class Boy:
 class SmallBall:
     def __init__(self):
         self.x, self.y = random.randint(1, 800), 599
-        self.speed = random.randint(1, 10)
+        self.speed = random.randint(2, 10)
         self.image = load_image('ball21x21.png')
 
     def update(self):
         self.y -= self.speed
+        self.stop()
 
     def draw(self):
         self.image.draw(self.x, self.y)
+
+    def stop(self):
+        if self.y <= 60: self.speed = 0
 
 class BigBall:
     def __init__(self):
         self.x, self.y = random.randint(1, 800), 599
-        self.speed = random.randint(1, 10)
+        self.speed = random.randint(2, 10)
         self.image = load_image('ball41x41.png')
 
     def update(self):
         self.y -= self.speed
+        self.stop()
 
     def draw(self):
         self.image.draw(self.x, self.y)
+
+    def stop(self):
+        if self.y <= 60: self.speed = 0
 
 def handle_events():
     global running
@@ -64,7 +72,8 @@ def reset_world():
     global grass
     global team
     global world
-    global ball
+    global smallball
+    global bigball
 
     running = True
     world = []
@@ -74,7 +83,13 @@ def reset_world():
 
     team = [Boy() for i in range(11)] # 소년 생성
     world += team
-    
+
+    small = random.randint(1, 20)
+
+    smallball = [SmallBall() for i in range(small)]
+    bigball = [BigBall() for i in range(20 - small)]
+    world += smallball
+    world += bigball
 
 running = True
 
